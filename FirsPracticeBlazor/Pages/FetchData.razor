@@ -1,0 +1,56 @@
+﻿@page "/fetchdata"
+
+<PageTitle>Weather forecast</PageTitle>
+@using FirsPracticeBlazor.Services
+@using FirsPracticeBlazor.Data
+@inject WeatherForecastService ForecastService
+@inject UserService UserService
+
+<h1>Users</h1>
+
+<p>This component demonstrates fetching data from a service.</p>
+
+@if (users?.Length > 1)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Age</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in users)
+            {
+                <tr>
+                    <td>@user.Name</td>
+                    <td>@user.Surname</td>
+                    <td>@user.Age</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (users == null)
+{
+    <p><em>Loading ....</em></p>
+}
+
+else
+{
+    <p>Name: @users[0].Name</p>
+    <p>Surname: @users[0].Surname</p>
+    <p>Age: @users[0].Age</p>
+}
+
+@code {
+    private User[]? users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        users = await UserService.GetUsers();
+    }
+
+
+}
